@@ -6,9 +6,9 @@ pipeline {
   }
   agent any
   stages {
-    stage('Cloning Git') {
+    stage('Get SCM') {
       steps {
-        git 'git clone https://github.com/SakthiDhandapani/ReactJsApp.git'
+        git 'https://github.com/SakthiDhandapani/ReactJsApp.git'
       }
     }
     stage('Building image') {
