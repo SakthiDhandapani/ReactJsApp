@@ -11,14 +11,14 @@ pipeline {
             steps {
              sh 'docker build --tag="front_end-"$BUILD_ID:"front_end-"$BUILD_ID .'
 	     sh 'docker tag "front_end-"$BUILD_ID:"front_end-"$BUILD_ID 780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan:"front_end-"$BUILD_ID'
-             sh 'eval $(aws ecr get-login --no-include-email --region ap-south-1|sed 's/ \-e none//')'
+             sh '("eval \$(aws ecr get-login --no-include-email | sed 's|https://||')")'
              sh 'docker push 780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan:"front_end-"$BUILD_ID'
             }
         }
 	    
 	stage('PULL from ECR') { 
             steps {
-             sh 'eval $(aws ecr get-login --no-include-email --region ap-south-1|sed 's/ \-e none//')'
+             sh '("eval \$(aws ecr get-login --no-include-email | sed 's|https://||')")'
              sh 'docker pull 780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan:"front_end-"$BUILD_ID'
             }
         }
