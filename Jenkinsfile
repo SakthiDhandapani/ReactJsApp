@@ -1,5 +1,10 @@
 pipeline {
   environment {
+    VERSION = "${BUILD_NUMBER}"
+    PROJECT = "reactapp"
+    IMAGE = "$PROJECT:$VERSION"
+    ECRURL="https://780862318210.dkr.ecr.ap-south-1.amazonaws.com"
+    ECRCRED = "ecr:ap-south-1:awscred'
     registry = "milan"
     registryCredential = 'awscred'
     dockerImage = ''
@@ -8,22 +13,22 @@ pipeline {
   stages {
     stage('Get SCM') {
       steps {
-        sh 'rm -rf ReactJsApp'
+        
         git 'https://github.com/SakthiDhandapani/ReactJsApp.git'
       }
     }
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          docker.build($BUILD_NUMBER)
         }
       }
     }
     stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry( 'https://780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan', registryCredential ) {
-            dockerImage.push()
+          docker.withRegistry( 'ECRURL', 'ECRCRED' ) {
+            docker.image(IMAGE).push()
           }
         }
       }
