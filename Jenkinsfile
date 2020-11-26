@@ -4,7 +4,7 @@ pipeline {
     PROJECT = "reactapp"
     IMAGE = "$PROJECT:$VERSION"
     ECRURL="https://780862318210.dkr.ecr.ap-south-1.amazonaws.com"
-    ECRCRED = "ecr:ap-south-1:awscred'
+    ECRCRED = 'ecr:ap-south-1:awscred'
     registry = "milan"
     registryCredential = 'awscred'
     dockerImage = ''
