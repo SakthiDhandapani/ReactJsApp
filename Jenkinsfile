@@ -12,9 +12,9 @@ pipeline {
   agent any
   stages {
     stage('Get SCM') {
-      steps {
-        
-        git 'https://github.com/SakthiDhandapani/ReactJsApp.git'
+      steps { 
+        sh 'rm -f ReactJsApp'
+        sh 'git clone https://github.com/SakthiDhandapani/ReactJsApp.git'
       }
     }
     stage('Building image') {
