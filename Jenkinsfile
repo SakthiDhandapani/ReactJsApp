@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/SakthiDhandapani/ReactJsApp.git'
+        git 'ssh://git@github.com:SakthiDhandapani/ReactJsApp.git'
       }
     }
     stage('Building image') {
