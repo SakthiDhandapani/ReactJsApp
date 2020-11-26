@@ -1,14 +1,16 @@
 pipeline {
-    agent {
-        docker {
-            image 'node:6-alpine' 
-            args '-p 3000:3000' 
-        }
-    }
+   agent any
     stages {
+             stage('Clone Repo and Clean it') {
+            steps {
+				sh 'rm -rf ReactJsApp'                
+                sh 'git clone https://github.com/SakthiDhandapani/ReactJsApp.git'
+            }
+        }
         stage('Build') { 
             steps {
-               docker.build("myImage:${env.BUILD_ID}') 
+               sh 'docker.build("myImage:${env.BUILD_ID}")' 
+               sh 'docker push <image>'
             }
         }
     }
