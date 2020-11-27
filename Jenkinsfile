@@ -21,7 +21,7 @@ pipeline {
     stage('Deploy Image') {
       steps{
         script {
-          docker.withRegistry( '', registryCredential ) {
+          docker.withRegistry( 'http://780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan', registryCredential ) {
             dockerImage.push()
           }
         }
