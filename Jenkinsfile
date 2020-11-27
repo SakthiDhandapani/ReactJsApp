@@ -5,22 +5,16 @@ pipeline {
     IMAGE = "$PROJECT:$VERSION"
     ECRURL="https://780862318210.dkr.ecr.ap-south-1.amazonaws.com"
     ECRCRED = 'ecr:ap-south-1:awscred'
-    registry = "milan"
+    registry = "https://780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan"
     registryCredential = 'awscred'
     dockerImage = ''
   }
   agent any
   stages {
-    stage('Get SCM') {
-      steps { 
-        sh 'rm -f ReactJsApp'
-        sh 'git clone https://github.com/SakthiDhandapani/ReactJsApp.git'
-      }
-    }
     stage('Building image') {
       steps{
         script {
-          docker.build($BUILD_NUMBER)
+          docker image =docker.build registry +":$BUILD_NUMBER
         }
       }
     }
@@ -28,7 +22,7 @@ pipeline {
       steps{
         script {
           docker.withRegistry( 'ECRURL', 'ECRCRED' ) {
-            docker.image(IMAGE).push()
+            dockerImage.push()
           }
         }
       }
