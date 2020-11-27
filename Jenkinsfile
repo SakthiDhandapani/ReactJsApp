@@ -40,7 +40,7 @@ pipeline {
         script {      
             docker.withRegistry(ECRURL,ECRCRED) {
             dockerImage.pull()
-             sh docker container kill $(docker ps | awk '/Sakthi/ {print $1}')
+             sh "docker container kill $(docker ps | awk '/Sakthi/ {print $1}')"
              sh "docker stop Sakthi"
              sh "docker rm Sakthi"
             sh "docker run -d --name Sakthi -p 9001:9001 780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan:front_end-$BUILD_NUMBER"  
