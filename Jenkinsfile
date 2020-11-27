@@ -42,7 +42,7 @@ pipeline {
             dockerImage.pull()
              sh "docker stop Sakthi"
              sh "docker rm Sakthi"
-            sh "docker run -d --name Sakthi -p 9001:9001 780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan:front_end-$BUILD_NUMBER"  
+            sh "docker run -d --name Sakthi -p 80:80/tcp 780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan:front_end-$BUILD_NUMBER"  
           }
         }
       }
