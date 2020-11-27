@@ -2,10 +2,7 @@ pipeline {
   environment {
     registry = "milan"
     registryCredential = 'awscred'
-    dockerImage = ''
-    VERSION = "$BUILD_NUMBER"
-    PROJECT = 'milan'
-    IMAGE = "$PROJECT:$VERSION"
+    dockerImage = ''        
     ECRURL = 'https://780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan'
     ECRCRED = 'ecr:ap-south-1:awscred'
   }
@@ -20,7 +17,7 @@ pipeline {
     stage('Building image') {
       steps{
         script {
-          dockerImage = docker.build registry + ":$BUILD_NUMBER"
+          dockerImage = docker.build registry + ":front_end-$BUILD_NUMBER"          
         }
       }
     }
@@ -33,20 +30,23 @@ pipeline {
         }
       }
     }
+   stage('Remove Unused docker image') {
+      steps{
+           sh "docker rmi $registry:$BUILD_NUMBER"        
+      }
+    }
     stage('Pull Image') {
       steps{
-        script {
+        script {      
             docker.withRegistry(ECRURL,ECRCRED) {
             dockerImage.pull()
+            sh "docker stop Sakthi"
+             sh "docker rm Sakthi"
+            sh "docker run -d --name Sakthi -p 9001:9001 780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan:front_end-$BUILD_NUMBER"  
           }
         }
       }
     }
-    stage('Remove Unused docker image') {
-      steps{
-        sh "docker rmi $registry:$BUILD_NUMBER"
-        sh "docker run -d --name $registry:$BUILD_NUMBER -p 9001:9001 ${ECR_URL}+${ECRCRED}"
-      }
-    }
+   
   }
 }
