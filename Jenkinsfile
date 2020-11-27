@@ -32,7 +32,7 @@ pipeline {
     }
    stage('Remove Unused docker image') {
       steps{
-           sh "docker rmi 780862318210.dkr.ecr.ap-south-1.amazonaws.com/milan:front_end-$BUILD_NUMBER"        
+          sh "docker rmi $registry:front_end-$BUILD_NUMBER"      
       }
     }
     stage('Pull Image') {
